@@ -56,12 +56,12 @@ std::string AliyunCred::CredentialsProvider::GetPassword() {
     unsigned char hmacResult[1024];
     unsigned int hmacLen = 0;
 
-    HMAC_CTX ctx;
-    HMAC_CTX_init(&ctx);
-    HMAC_Init_ex(&ctx, key.c_str(), key.size(), EVP_sha1(), nullptr);
-    HMAC_Update(&ctx, (unsigned char *)message.c_str(), message.size());
-    HMAC_Final(&ctx, (unsigned char *)hmacResult, &hmacLen);
-    HMAC_CTX_cleanup(&ctx);
+    HMAC_CTX* ctx = HMAC_CTX_new();
+    //HMAC_CTX_init(&ctx);
+    HMAC_Init_ex(ctx, key.c_str(), key.size(), EVP_sha1(), nullptr);
+    HMAC_Update(ctx, (unsigned char *)message.c_str(), message.size());
+    HMAC_Final(ctx, (unsigned char *)hmacResult, &hmacLen);
+    HMAC_CTX_free(ctx);
 
     char hexHmacValue[1024];
     int curIndex = 0;

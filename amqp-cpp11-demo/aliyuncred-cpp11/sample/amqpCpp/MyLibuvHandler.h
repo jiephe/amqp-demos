@@ -26,6 +26,14 @@ private:
         std::cout << "connected" << std::endl;
     }
 
+    virtual uint16_t onNegotiate(AMQP::TcpConnection *connection, uint16_t interval)
+    {
+	std::cout << "heartbeat interval is: " << interval << std::endl;
+        if (interval < 60) interval = 60;
+		
+	return interval;
+    }
+
 public:
     /**
      *  Constructor
